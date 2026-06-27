@@ -1,10 +1,15 @@
-
 if __name__ == "__main__":
     import main
 
 def inputBiodata():
     print("=== Masukkan Biodata Anda ===")
     nama = input("Nama: ")
+    while len(nama) == 0:
+        print("Nama tidak boleh kosong!")
+        nama = input("Nama: ")
+    while not nama.isalpha():
+        print("Nama hanya boleh mengandung huruf!")
+        nama = input("Nama: ")
     
     # Validasi umur agar pasti berupa angka (integer)
     while True:
@@ -17,6 +22,10 @@ def inputBiodata():
             print("Harap masukkan angka bulat untuk umur!\n")
             
     jenis_kelamin = input("Jenis Kelamin (L/P): ")
+    while jenis_kelamin.upper() not in ["L", "P"]:
+        print("'L' untuk Laki-laki atau 'P' untuk Perempuan.")
+        jenis_kelamin = input("Jenis Kelamin (L/P): ")
+
     return nama, umur, jenis_kelamin
 
 
@@ -44,11 +53,7 @@ def totalWaktuTidur():
             print("Input tidak valid! Jam maksimal 23, menit maksimal 59.\n")
         except ValueError:
             print("Harap masukkan angka bulat!\n")
-
-    # 3. Penentuan Format AM/PM
-    format_tidur = "PM" if jam_t >= 12 else "AM"
-    format_bangun = "PM" if jam_b >= 12 else "AM"
-
+   
     # 4. Kalkulasi Total Menit dari jam 00:00
     total_menit_tidur = (jam_t * 60) + menit_t
     total_menit_bangun = (jam_b * 60) + menit_b
@@ -63,8 +68,8 @@ def totalWaktuTidur():
     sisa_menit = durasi_menit % 60
 
     # 6. Pembuatan String
-    jam_tidur_str = f"{jam_t:02d}:{menit_t:02d} {format_tidur}"
-    jam_bangun_str = f"{jam_b:02d}:{menit_b:02d} {format_bangun}"
+    jam_tidur_str = f"{jam_t:02d}:{menit_t:02d} "
+    jam_bangun_str = f"{jam_b:02d}:{menit_b:02d} "
     total_waktu_str = f"{durasi_jam} jam {sisa_menit} menit"
 
     # Return string untuk dicetak, DAN angka untuk dievaluasi kesehatannya
@@ -74,10 +79,10 @@ def totalWaktuTidur():
 def dapatkan_rekomendasi_tidur(umur):
     """Menentukan rekomendasi jam tidur berdasarkan umur (Standar WHO/NSF)."""
     if umur <= 5:
-        return 10, 14, "Balita"
-    elif umur <= 12:
+        return 11, 14, "Balita"
+    elif umur <= 13:
         return 9, 12, "Anak-anak"
-    elif umur <= 18:
+    elif umur <= 17:
         return 8, 10, "Remaja"
     elif umur <= 64:
         return 7, 9, "Dewasa"
@@ -85,18 +90,73 @@ def dapatkan_rekomendasi_tidur(umur):
         return 7, 8, "Lansia"
 
 
-def evaluasi_kesehatan(durasi_desimal, min_jam, max_jam):
-    """Mengevaluasi durasi tidur dan memberikan dampak kesehatan."""
-    if durasi_desimal < min_jam:
-        status = "KURANG TIDUR (Sleep Deprivation)"
-        dampak = "Penurunan daya ingat, daya tahan tubuh melemah, hormon stres meningkat."
-    elif durasi_desimal > max_jam:
-        status = "TIDUR BERLEBIH (Oversleeping)"
-        dampak = "Meningkatkan risiko kelelahan kronis (lethargy), penurunan mood, dan masalah metabolisme."
-    else:
-        status = "OPTIMAL"
-        dampak = "Pemulihan sel tubuh maksimal, fokus tajam, mood stabil, dan sistem imun berfungsi dengan baik."
-        
+def evaluasi_kesehatan(durasi_desimal, kategori_usia):
+    """PENJELASAN STATUS DAN DAMPAK BERDASARKAN KATEGORI UMUR"""
+    if kategori_usia == "Balita":
+        if durasi_desimal <  8:
+            status = "SANGAT KURANG TIDUR"
+            dampak = "Menghambat proses pertumbuhan dan menurunkan daya tahan tubuh."
+        elif durasi_desimal >= 8 and durasi_desimal < 10:
+            status = "KURANG TIDUR"
+            dampak = "Menyebabkan anak mudah rewel, dan penurunan fokus saat belajar."
+        elif durasi_desimal >= 15:
+            status = "TIDUR BERLEBIH"
+            dampak = "Menyebabkan anak tampak lesu, kurang aktif, dan gangguan metabolisme."
+        else:
+            status = "OPTIMAL"
+            dampak = "Pertumbuhan optimal, daya tahan tubuh baik, dan perkembangan kognitif maksimal."
+    if kategori_usia == "Anak-anak":
+        if durasi_desimal <  7:
+            status = "SANGAT KURANG TIDUR"
+            dampak = "Daya tahan tubuh brekurang drastis dan gangguan metabolisme."
+        elif durasi_desimal >= 7 and durasi_desimal < 9:
+            status = "KURANG TIDUR"
+            dampak = "Konsetrasi menurun, kemampuan mengingat menjadi terganggu."
+        elif durasi_desimal >= 12:
+            status = "TIDUR BERLEBIH"
+            dampak = "Sleep Inertia (terasa berat dan pusing ketika bangun tidur)."
+        else:
+            status = "OPTIMAL"
+            dampak = "Suasana hati terjaga, fokus belajar meningkat, dan sistem imun berfungsi baik."
+    if kategori_usia == "Remaja":
+        if durasi_desimal < 6:
+            status = "SANGAT KURANG TIDUR"
+            dampak = "Daya tahan tubuh menurun drastis, Jerawat semakin banyak, dan mood swing."
+        elif durasi_desimal >= 6 and durasi_desimal < 8:
+            status = "KURANG TIDUR"
+            dampak = "Mood swing, serta sering menguap karena rasa kantuk akibat kurang tidur."
+        elif durasi_desimal > 10:
+            status = "TIDUR BERLEBIH"
+            dampak = "Mudah lelah, dan gangguan metabolisme serta mengalami Sleep Inertia."
+        else:
+            status = "OPTIMAL"
+            dampak = "Mood stabil, fokus belajar meningkat, dan sistem imun berfungsi baik."
+    if kategori_usia == "Dewasa":
+        if durasi_desimal < 5:
+            status = "SANGAT KURANG TIDUR"
+            dampak = "Daya tahan tubuh menurun drastis, mudah sakit, dan gangguan metabolisme."
+        elif durasi_desimal >= 5 and durasi_desimal < 7:
+            status = "KURANG TIDUR"
+            dampak = "Mudah lelah, mood swing, dan penurunan konsentrasi."
+        elif durasi_desimal > 9:
+            status = "TIDUR BERLEBIH"
+            dampak = "Lemas dan tidak bertenaga, serta meningkatkan resiko penyakit jantung."
+        else:
+            status = "OPTIMAL"
+            dampak = "Regenerasi tubuh maksimal, fokus dan produktivitas meningkat."
+    if kategori_usia == "Lansia":
+        if durasi_desimal < 5:
+            status = "SANGAT KURANG TIDUR"
+            dampak = "Fungsi Kognitif berkurang, beresiko kecelakaan akibat gangguan keseimbangan."
+        elif durasi_desimal >= 5 and durasi_desimal < 7:
+            status = "KURANG TIDUR"
+            dampak = "Daya Ingat menurun, mudah lelah, dan resiko hipertensi."
+        elif durasi_desimal > 9:
+            status = "TIDUR BERLEBIH"
+            dampak = "Otot dan sendi rawan terjadi kekakuan."
+        else:
+            status = "OPTIMAL"
+            dampak = "Kemampuan memori terjaga, serta meningkatkan sistem imun tubuh."    
     return status, dampak
 
 
@@ -113,7 +173,7 @@ def jalankan_aplikasi():
     # 3. Proses Analisis Kesehatan
     durasi_desimal = d_jam + (d_menit / 60) # Ubah ke desimal (misal 7 jam 30 menit = 7.5)
     min_jam, max_jam, kategori_usia = dapatkan_rekomendasi_tidur(umur)
-    status_tidur, dampak_kesehatan = evaluasi_kesehatan(durasi_desimal, min_jam, max_jam)
+    status_tidur, dampak_kesehatan = evaluasi_kesehatan(durasi_desimal, kategori_usia)
     
     # 4. Tampilkan Laporan Akhir
     print("\n" + "="*50)
@@ -130,7 +190,9 @@ def jalankan_aplikasi():
     print(f"Status          : {status_tidur}")
     print(f"Dampak Medis    : {dampak_kesehatan}")
     print("="*50)
+    goto_main = input("Apakah Anda ingin melakukan kalkulasi jam tidur lagi? (y/n): ")
+    if goto_main.lower() == 'y':
+        jalankan_aplikasi() # Memanggil fungsi ini lagi untuk mengulang program
+    else:
+        import main 
 
-# Memulai Program
-if __name__ == "__main__":
-    jalankan_aplikasi()
