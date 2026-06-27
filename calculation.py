@@ -33,8 +33,7 @@ def inputBiodata():
 
 
 def totalWaktuTidur():
-    print("\n=== Kalkulator Waktu Tidur ===")
-    
+    print("\n=== Kalkulator Waktu Tidur ===") 
     # 1. Input & Validasi Jam Tidur
     while True:
         try:

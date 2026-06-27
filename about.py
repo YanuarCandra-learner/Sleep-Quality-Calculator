@@ -40,3 +40,16 @@ def jalankan_about():
             break
         else:
             print("Pilihan tidak valid. Silahkan pilih 1, 2, atau 3.")
+
+def credit():
+    while True:
+        
+        print("\n", "=" * 50, f"Credit".center(50), "=" * 50, sep="\n")
+        teks = f"YANUAR ADI CANDRA".center(50)
+        link = f"https://github.com/YanuarCandra-learner".center(50)
+        hasil = textwrap.fill(teks, width=50)
+        linked = textwrap.fill(link, width=50)
+        print(hasil)
+        print(linked)
+        input("\nTekan Enter untuk kembali ke menu utama...")
+        break

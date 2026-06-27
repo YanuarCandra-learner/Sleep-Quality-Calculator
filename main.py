@@ -19,7 +19,7 @@ while True:
     while not menu.isdigit():
         print("Gunakan angka untuk memilih menu.")
         menu = input("silahkan masukkan nomor menu : ")
-        
+
     while menu.isdigit():
         menu = int(menu)
         match menu: #switch case untuk menu
@@ -41,8 +41,8 @@ while True:
                 about.jalankan_about()
                 break
             case 3:
-                print("cek")
-                # about.credit()
+                os.system('cls' if os.name == 'nt' else 'clear')  # Clear the console for better readability
+                about.credit()
                 break
             case 4:
                 print("Terima kasih telah menggunakan program ini.")
