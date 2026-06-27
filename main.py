@@ -1,7 +1,9 @@
 while True:
+    import os
     import calculation
     import about
-    
+
+    os.system('cls' if os.name == 'nt' else 'clear')
     judulProgram = "SELAMAT DATANG DI PROGRAM SLEEP-QUALITY-CALCULATOR"
     p_judulProgram = len(judulProgram)
     #header program
@@ -12,24 +14,31 @@ while True:
     print(f"3. Credit")
     print(f"4. Exit")
 
-
+    #input menu
     menu = input("silahkan masukkan nomor menu : ")
     while not menu.isdigit():
         print("Gunakan angka untuk memilih menu.")
         menu = input("silahkan masukkan nomor menu : ")
         
-
     while menu.isdigit():
         menu = int(menu)
-        match menu:
+        match menu: #switch case untuk menu
             case 1:
+                #menjalankan kalkulasi kualitas tidur PERTAMA KALI
+                os.system('cls' if os.name == 'nt' else 'clear')  # Clear the console for better readability
                 calculation.jalankan_aplikasi()
+                #LOGIKA REPEAT 
+                goto_main = input("\n\nApakah Anda ingin melakukan kalkulasi jam tidur lagi? (y/n): ")
+                while goto_main.lower() == 'y':
+                    os.system('cls' if os.name == 'nt' else 'clear')
+                    calculation.jalankan_aplikasi()
+                    goto_main = input("\n\nApakah Anda ingin melakukan kalkulasi jam tidur lagi? (y/n): ") # Memanggil fungsi ini lagi untuk mengulang program
+                else:
+                    import main 
                 break
             case 2:
-                print("cek")
-                
-                print("fungsi ini akan segera hadir, stay tune untuk update selanjutnya")
-                # about.about()
+                os.system('cls' if os.name == 'nt' else 'clear')  # Clear the console for better readability
+                about.jalankan_about()
                 break
             case 3:
                 print("cek")

@@ -1,8 +1,11 @@
 if __name__ == "__main__":
     import main
 
+import time
+import os
+
 def inputBiodata():
-    print("=== Masukkan Biodata Anda ===")
+    print("=" * 50,  "Masukkan Biodata Anda".center(50), "=" * 50, sep="\n")
     nama = input("Nama: ")
     while len(nama) == 0:
         print("Nama tidak boleh kosong!")
@@ -174,25 +177,24 @@ def jalankan_aplikasi():
     durasi_desimal = d_jam + (d_menit / 60) # Ubah ke desimal (misal 7 jam 30 menit = 7.5)
     min_jam, max_jam, kategori_usia = dapatkan_rekomendasi_tidur(umur)
     status_tidur, dampak_kesehatan = evaluasi_kesehatan(durasi_desimal, kategori_usia)
+
+    print(f"\n\nSedang menganalisis pola tidur Anda..."), time.sleep(2)  # Delay 2 detik untuk simulasi proses analisis
+    print(f"Memberikan rekomendasi lama durasi tidur..."), time.sleep(3)  # Delay 3 detik untuk simulasi proses analisis
+    print(f"Analisis selesai. Menampilkan laporan akhir..."),time.sleep(1)  # Delay 1 detik untuk simulasi proses analisis
     
+    os.system('cls' if os.name == 'nt' else 'clear')
     # 4. Tampilkan Laporan Akhir
-    print("\n" + "="*50)
-    print("LAPORAN ANALISIS POLA TIDUR PASIEN")
-    print("="*50)
-    print(f"Nama Pasien     : {nama} ({jenis_kelamin.upper()})")
+    print("\n" + "="*85)
+    print(f"LAPORAN ANALISIS POLA TIDUR ANDA".center(85))
+    print("="*85)
+    print(f"Nama Pasien     : {nama [0:1].upper()}{nama[1:].lower()} ({jenis_kelamin.upper()})")
     print(f"Kategori Usia   : {kategori_usia} ({umur} tahun)")
-    print("-" * 50)
+    print("-" * 85)
     print(f"Waktu Tidur     : {jam_tidur_str}")
     print(f"Waktu Bangun    : {jam_bangun_str}")
     print(f"Durasi Aktual   : {total_waktu_str}")
     print(f"Rekomendasi WHO : {min_jam} - {max_jam} jam per malam")
-    print("-" * 50)
+    print("-" * 85)
     print(f"Status          : {status_tidur}")
     print(f"Dampak Medis    : {dampak_kesehatan}")
-    print("="*50)
-    goto_main = input("Apakah Anda ingin melakukan kalkulasi jam tidur lagi? (y/n): ")
-    if goto_main.lower() == 'y':
-        jalankan_aplikasi() # Memanggil fungsi ini lagi untuk mengulang program
-    else:
-        import main 
-
+    print("="*85)
